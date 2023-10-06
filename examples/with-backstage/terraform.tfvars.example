@@ -1,0 +1,18 @@
+
+# AWS Account (ID) to use
+aws_account_id = ""
+
+# AWS region
+aws_region = ""
+
+# GitHub org id
+github_org_id = ""
+
+# Humanitec CI Service User Token
+humanitec_ci_service_user_token = ""
+
+# Humanitec Organization ID
+humanitec_org_id = ""
+
+# Revision of the resource-packs-aws repository to use
+resource_packs_aws_rev = "refs/heads/main"

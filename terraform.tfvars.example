@@ -1,0 +1,9 @@
+
+# AWS Account (ID) to use
+aws_account_id = ""
+
+# AWS Region to deploy into
+aws_region = ""
+
+# Humanitec Organization ID
+humanitec_org_id = ""

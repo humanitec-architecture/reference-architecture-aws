@@ -1,0 +1,41 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ~1.5
+
+      - name: Terraform Version
+        run: terraform -version
+
+      - name: Install terraform-docs
+        run: |
+          WORK_DIR=$(mktemp -d)
+          curl -Lo ${WORK_DIR}/terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.0/terraform-docs-v0.16.0-$(uname)-amd64.tar.gz
+          cd ${WORK_DIR}
+          tar -xzf terraform-docs.tar.gz
+          chmod +x terraform-docs
+          mv terraform-docs /usr/local/bin/terraform-docs
+      - name: Generate docs
+        run: make docs
+
+      - name: Check git diff is clean (all files generated should be committed)
+        run: git diff --exit-code
+
+      - name: Terraform Format Check
+        run: make fmt-check
+
+      - name: Stub Github App credentials (required for validation)
+        run: cd ./examples/with-backstage && STUB_FILE=1 node create-gh-app/index.js
+
+      - name: Terraform Validate
+        run: make validate
