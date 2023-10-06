@@ -117,7 +117,7 @@ Check for the existence of key elements of the reference architecture. This is a
 
 ## Cleaning up
 
-Once you are finished with the reference architecture, you can remove all provisioned infrastrcuture and the resource definitions created in Humanitec with the following:
+Once you are finished with the reference architecture, you can remove all provisioned infrastructure and the resource definitions created in Humanitec with the following:
 
 1. Ensure you are (still) logged in with `aws`.
 
