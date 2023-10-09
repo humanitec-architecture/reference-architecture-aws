@@ -91,6 +91,8 @@ const writeConfigFile = async (data, webhookUrl) => {
   }, null, 2)
 
   await fs.writeFile(fileName, content);
+
+  console.log(`Created ${fileName}, you can close the server now.`)
 }
 
 const handleCallback = async (req, res) => {
@@ -108,8 +110,6 @@ const handleCallback = async (req, res) => {
   const data = await conversionRes.json();
 
   await writeConfigFile(data, webhookUrl);
-
-  console.log(`Created ${fileName}, you can close the server now.`)
 
   res.writeHead(302, { Location: `${data.html_url}/installations/new` });
   res.end();
