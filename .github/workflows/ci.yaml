@@ -34,7 +34,7 @@ jobs:
       - name: Terraform Format Check
         run: make fmt-check
 
-      - name: Stub Github App credentials (required for validation)
+      - name: Stub GitHub App credentials (required for validation)
         run: cd ./examples/with-backstage && STUB_FILE=1 node create-gh-app/index.js
 
       - name: Terraform Validate

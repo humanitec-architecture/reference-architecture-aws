@@ -14,6 +14,12 @@ locals {
   backstage_repo = "backstage"
 }
 
+resource "github_actions_organization_variable" "backstage_cloud_provider" {
+  variable_name = "CLOUD_PROVIDER"
+  visibility    = "all"
+  value         = local.cloud_provider
+}
+
 resource "github_actions_organization_variable" "backstage_aws_region" {
   variable_name = "AWS_REGION"
   visibility    = "all"
