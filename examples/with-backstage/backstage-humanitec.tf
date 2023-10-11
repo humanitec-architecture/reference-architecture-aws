@@ -69,6 +69,14 @@ resource "humanitec_value" "backstage_humanitec_token" {
   is_secret   = true
 }
 
+resource "humanitec_value" "backstage_cloud_provider" {
+  app_id      = humanitec_application.backstage.id
+  key         = "CLOUD_PROVIDER"
+  description = ""
+  value       = local.cloud_provider
+  is_secret   = false
+}
+
 resource "humanitec_value" "aws_default_region" {
   app_id      = humanitec_application.backstage.id
   key         = "AWS_DEFAULT_REGION"
