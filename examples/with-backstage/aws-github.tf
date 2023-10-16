@@ -1,5 +1,6 @@
 locals {
-  name = "gha-ecr-push"
+  name           = "gha-ecr-push"
+  cloud_provider = "aws"
 }
 
 # Create a role for GitHub Actions to push to ECR using OpenID Connect (OIDC) so we don't need to store AWS credentials in GitHub
