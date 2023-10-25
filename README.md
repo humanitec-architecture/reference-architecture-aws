@@ -186,10 +186,10 @@ Once you are finished with the reference architecture, you can remove all provis
    terraform destroy
    ```
 
-### Terraform docs
+## Terraform docs
 
 <!-- BEGIN_TF_DOCS -->
-#### Requirements
+### Requirements
 
 | Name | Version |
 |------|---------|
@@ -197,13 +197,13 @@ Once you are finished with the reference architecture, you can remove all provis
 | aws | ~> 5.17 |
 | humanitec | ~> 0.13 |
 
-#### Modules
+### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | base | ./modules/base | n/a |
 
-#### Inputs
+### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
