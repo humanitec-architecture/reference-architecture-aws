@@ -210,6 +210,7 @@ Once you are finished with the reference architecture, you can remove all provis
 | aws\_account\_id | AWS Account (ID) to use | `string` | n/a | yes |
 | aws\_region | AWS Region to deploy into | `string` | n/a | yes |
 | humanitec\_org\_id | Humanitec Organization ID | `string` | n/a | yes |
+| instance\_types | List of EC2 instances types to use for EKS nodes | `list(string)` | <pre>[<br>  "t3.large"<br>]</pre> | no |
 <!-- END_TF_DOCS -->
 
 ## Learn more

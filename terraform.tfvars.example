@@ -7,3 +7,8 @@ aws_region = ""
 
 # Humanitec Organization ID
 humanitec_org_id = ""
+
+# List of EC2 instances types to use for EKS nodes
+instance_types = [
+  "t3.large"
+]
