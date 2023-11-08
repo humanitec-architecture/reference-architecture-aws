@@ -4,7 +4,7 @@
 >
 > Skip the theory? Go [here](README.md#how-to-spin-up-your-humanitec-aws-reference-architecture) to spin up your Humanitec Google Cloud Reference Architecture Implementation. 
 >
-> [Follow this learning path to master you Internal Developer Platform](https://developer.humanitec.com/training/master-your-internal-developer-platform/introduction/).
+> [Follow this learning path to master your Internal Developer Platform](https://developer.humanitec.com/training/master-your-internal-developer-platform/introduction/).
 >
 
 Building an Internal Developer Platform (IDP) can come with many challenges. To give you a head start, we’ve created a set of [reference architectures](https://humanitec.com/reference-architectures) based on hundreds of real-world setups. These architectures described in code provide a starting point to build your own IDP within minutes, along with customization capabilities to ensure your platform meets the unique needs of your users (developers).
