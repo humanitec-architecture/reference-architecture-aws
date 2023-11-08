@@ -8,3 +8,4 @@
 *.tfvars
 terraform.rc
 github-app-credentials.json
+**/.DS_Store
