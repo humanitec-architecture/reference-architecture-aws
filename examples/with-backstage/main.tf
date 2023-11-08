@@ -3,7 +3,8 @@
 module "base" {
   source = "../../modules/base"
 
-  region = var.aws_region
+  region         = var.aws_region
+  instance_types = var.instance_types
 }
 
 provider "kubernetes" {

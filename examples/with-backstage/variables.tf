@@ -29,3 +29,11 @@ variable "resource_packs_aws_rev" {
   type        = string
   default     = "refs/heads/main"
 }
+
+variable "instance_types" {
+  description = "List of EC2 instances types to use for EKS nodes"
+  type        = list(string)
+  default = [
+    "t3.large"
+  ]
+}

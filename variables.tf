@@ -13,3 +13,11 @@ variable "humanitec_org_id" {
   description = "Humanitec Organization ID"
   type        = string
 }
+
+variable "instance_types" {
+  description = "List of EC2 instances types to use for EKS nodes"
+  type        = list(string)
+  default = [
+    "t3.large"
+  ]
+}
