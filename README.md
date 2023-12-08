@@ -2,7 +2,7 @@
 
 > TL;DR
 >
-> Skip the theory? Go [here](README.md#how-to-spin-up-your-humanitec-aws-reference-architecture) to spin up your Humanitec Google Cloud Reference Architecture Implementation. 
+> Skip the theory? Go [here](README.md#how-to-spin-up-your-humanitec-aws-reference-architecture) to spin up your Humanitec AWS Reference Architecture Implementation. 
 >
 > [Follow this learning path to master your Internal Developer Platform](https://developer.humanitec.com/training/master-your-internal-developer-platform/introduction/).
 >
