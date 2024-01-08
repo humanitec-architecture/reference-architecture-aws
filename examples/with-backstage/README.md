@@ -138,6 +138,7 @@ Once you are finished with the reference architecture, you can remove all provis
 | github\_org\_id | GitHub org id | `string` | n/a | yes |
 | humanitec\_ci\_service\_user\_token | Humanitec CI Service User Token | `string` | n/a | yes |
 | humanitec\_org\_id | Humanitec Organization ID | `string` | n/a | yes |
+| disk\_size | Disk size in GB to use for EKS nodes | `number` | `20` | no |
 | instance\_types | List of EC2 instances types to use for EKS nodes | `list(string)` | <pre>[<br>  "t3.large"<br>]</pre> | no |
 | resource\_packs\_aws\_rev | Revision of the resource-packs-aws repository to use | `string` | `"refs/heads/main"` | no |
 <!-- END_TF_DOCS -->

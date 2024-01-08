@@ -26,7 +26,9 @@ provider "aws" {
 module "base" {
   source = "./modules/base"
 
-  region = var.aws_region
+  region         = var.aws_region
+  instance_types = var.instance_types
+  disk_size      = var.disk_size
 }
 
 provider "kubernetes" {

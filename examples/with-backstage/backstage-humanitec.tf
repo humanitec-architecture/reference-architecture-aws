@@ -129,7 +129,6 @@ module "backstage_iam_policy_ecr_create_repository" {
   access_key             = module.base.aws_access_key_id
   secret_key             = module.base.aws_secret_access_key
   resource_packs_aws_rev = var.resource_packs_aws_rev
-  humanitec_organization = var.humanitec_org_id
   region                 = var.aws_region
 
   prefix = local.res_def_prefix
@@ -150,7 +149,6 @@ module "backstage_iam_role_service_account" {
   access_key             = module.base.aws_access_key_id
   secret_key             = module.base.aws_secret_access_key
   resource_packs_aws_rev = var.resource_packs_aws_rev
-  humanitec_organization = var.humanitec_org_id
   region                 = var.aws_region
 
   policy_classes = ["default"]

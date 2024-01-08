@@ -54,6 +54,7 @@ Module that provides the reference architecture.
 | <a name="input_capacity_type"></a> [capacity\_type](#input\_capacity\_type) | Defines whether to use ON\_DEMAND or SPOT EC2 instances for EKS nodes | `string` | `"ON_DEMAND"` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name for the EKS cluster | `string` | `"ref-arch"` | no |
 | <a name="input_cluster_version"></a> [cluster\_version](#input\_cluster\_version) | Version of the EKS cluster to deploy | `string` | `null` | no |
+| <a name="input_disk_size"></a> [disk\_size](#input\_disk\_size) | Disk size in GB to use for EKS nodes | `number` | `20` | no |
 | <a name="input_eks_public_access_cidrs"></a> [eks\_public\_access\_cidrs](#input\_eks\_public\_access\_cidrs) | List of CIDRs that can access the EKS cluster's public endpoint | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Name of the environment to be deployed into | `string` | `"development"` | no |
 | <a name="input_iam_user_name"></a> [iam\_user\_name](#input\_iam\_user\_name) | Name of the IAM user to create for Humanitec EKS access | `string` | `"svc-humanitec"` | no |
