@@ -21,3 +21,9 @@ variable "instance_types" {
     "t3.large"
   ]
 }
+
+variable "disk_size" {
+  description = "Disk size in GB to use for EKS nodes"
+  type        = number
+  default     = 20
+}

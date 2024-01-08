@@ -5,6 +5,9 @@ aws_account_id = ""
 # AWS region
 aws_region = ""
 
+# Disk size in GB to use for EKS nodes
+disk_size = 20
+
 # GitHub org id
 github_org_id = ""
 

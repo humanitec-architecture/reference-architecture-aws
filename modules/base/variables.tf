@@ -89,3 +89,9 @@ variable "ingress_nginx_min_unavailable" {
   type        = number
   default     = 1
 }
+
+variable "disk_size" {
+  description = "Disk size in GB to use for EKS nodes"
+  type        = number
+  default     = 20
+}

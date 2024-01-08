@@ -100,6 +100,9 @@ module "aws_eks" {
 
       instance_types = var.instance_types
       capacity_type  = var.capacity_type
+
+      disk_size                  = var.disk_size
+      use_custom_launch_template = false
     }
   }
 
