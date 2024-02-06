@@ -153,9 +153,8 @@ module "backstage_iam_role_service_account" {
 
   policy_classes = ["default"]
 
-  oidc_provider     = module.base.eks_oidc_provider
-  oidc_provider_arn = module.base.eks_oidc_provider_arn
-  prefix            = local.res_def_prefix
+  cluster_name = module.base.eks_cluster_name
+  prefix       = local.res_def_prefix
 }
 
 resource "humanitec_resource_definition_criteria" "backstage_iam_role_service_account" {

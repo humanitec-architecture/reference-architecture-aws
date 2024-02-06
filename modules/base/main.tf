@@ -49,11 +49,6 @@ data "aws_caller_identity" "current" {}
 locals {
   default_aws_auth_users = [
     {
-      userarn  = data.aws_caller_identity.current.arn
-      username = "creator"
-      groups   = ["system:masters"]
-    },
-    {
       userarn  = aws_iam_user.humanitec_svc.arn
       username = aws_iam_user.humanitec_svc.name
       groups   = ["system:masters"]
@@ -81,7 +76,7 @@ module "ebs_csi_irsa_role" {
 
 module "aws_eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 19.16"
+  version = "~> 20.2"
 
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
@@ -111,10 +106,29 @@ module "aws_eks" {
       most_recent              = true
       service_account_role_arn = module.ebs_csi_irsa_role.iam_role_arn
     }
+    eks-pod-identity-agent = {
+      most_recent = true
+    }
   }
 
-  manage_aws_auth_configmap = true
-  aws_auth_users            = local.aws_auth_users
+  enable_cluster_creator_admin_permissions = true
+
+  access_entries = {
+    for s in local.aws_auth_users : s.username => {
+      kubernetes_groups = []
+      principal_arn     = s.userarn
+
+      policy_associations = {
+        cluster_admin = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            namespaces = []
+            type       = "cluster"
+          }
+        }
+      }
+    }
+  }
 
   # required for ingress-nginx see https://github.com/terraform-aws-modules/terraform-aws-eks/issues/2513
   node_security_group_additional_rules = {
