@@ -4,6 +4,8 @@ locals {
   ingress_address = data.kubernetes_service.ingress_nginx_controller.status.0.load_balancer.0.ingress.0.hostname
 }
 
+data "aws_elb_hosted_zone_id" "main" {}
+
 resource "humanitec_resource_definition" "k8s_cluster_driver" {
   driver_type = "humanitec/k8s-cluster-eks"
   id          = var.cluster_name
@@ -12,9 +14,10 @@ resource "humanitec_resource_definition" "k8s_cluster_driver" {
 
   driver_inputs = {
     values_string = jsonencode({
-      "name"         = module.aws_eks.cluster_name
-      "loadbalancer" = local.ingress_address
-      "region"       = var.region
+      "name"                     = module.aws_eks.cluster_name
+      "loadbalancer"             = local.ingress_address
+      "loadbalancer_hosted_zone" = data.aws_elb_hosted_zone_id.main.id
+      "region"                   = var.region
     }),
     secrets_string = jsonencode({
       "credentials" = {
