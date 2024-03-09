@@ -74,7 +74,6 @@ By default, the following will be provisioned:
 * Ingress NGINX in the cluster
 * Resource Definitions in Humanitec for:
   * Kubernetes Cluster
-  * Logging
 
 ### Prerequisites
 
