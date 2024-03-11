@@ -6,7 +6,7 @@ terraform {
     }
     humanitec = {
       source  = "humanitec/humanitec"
-      version = "~> 0.13"
+      version = "~> 1.0"
     }
     github = {
       source  = "integrations/github"

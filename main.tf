@@ -7,7 +7,7 @@ terraform {
     }
     humanitec = {
       source  = "humanitec/humanitec"
-      version = "~> 0.13"
+      version = "~> 1.0"
     }
   }
   required_version = ">= 1.3.0"
