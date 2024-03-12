@@ -1,11 +1,8 @@
-# AWS region
+# AWS Region to deploy into
 aws_region = "eu-central-1"
 
 # Disk size in GB to use for EKS nodes
 disk_size = 20
-
-# GitHub org id
-github_org_id = "codecentric-idp"
 
 # Humanitec Organization ID
 humanitec_org_id = "codecentric-msc"
@@ -14,6 +11,3 @@ humanitec_org_id = "codecentric-msc"
 instance_types = [
   "t3.small"
 ]
-
-# Revision of the resource-packs-aws repository to use
-resource_packs_aws_rev = "refs/heads/main"
