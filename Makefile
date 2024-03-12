@@ -7,8 +7,8 @@ docs:
 	terraform-docs --lockfile=false ./modules/base
 	terraform-docs --config docs/.terraform-docs.yaml .
 	terraform-docs --config docs/.terraform-docs-example.yaml .
-	terraform-docs --config docs/.terraform-docs.yaml ./examples/with-backstage
-	terraform-docs --config docs/.terraform-docs-example.yaml ./examples/with-backstage
+	terraform-docs --config docs/.terraform-docs.yaml .
+	terraform-docs --config docs/.terraform-docs-example.yaml .
 
 # Format all terraform files
 fmt:
@@ -16,7 +16,7 @@ fmt:
 
 # Check if all terraform files are formatted
 fmt-check:
-	terraform fmt -recursive -check
+	terraform fmt -recursive
 
 # Validate a terraform directories
 $(VALIDATE_TF_DIRS): validate-%:

@@ -1,179 +1,69 @@
-# Humanitec AWS Reference Architecture
+# AWS reference architecture with Backstage
 
-> TL;DR
->
-> Skip the theory? Go [here](README.md#how-to-spin-up-your-humanitec-aws-reference-architecture) to spin up your Humanitec AWS Reference Architecture Implementation.
->
-> [Follow this learning path to master your Internal Developer Platform](https://developer.humanitec.com/training/master-your-internal-developer-platform/introduction/).
->
+Provisions the AWS reference architecture connected to Humanitec and installs Backstage.
 
-Building an Internal Developer Platform (IDP) can come with many challenges. To give you a head start, we’ve created a set of [reference architectures](https://humanitec.com/reference-architectures) based on hundreds of real-world setups. These architectures described in code provide a starting point to build your own IDP within minutes, along with customization capabilities to ensure your platform meets the unique needs of your users (developers).
+## Prerequisites
 
-The initial version of this reference architecture has been presented by Mike Gatto, Sr. DevOps Engineer, McKinsey and Stephan Schneider, Digital Expert Associate Partner, McKinsey at [PlartformCon 2023](https://www.youtube.com/watch?v=AimSwK8Mw-U).
+* The same prerequisites as the [base reference architecture](../../README.md#prerequisites), plus the following items.
+* A GitHub organization and permission to create new repositories in it. Go to https://github.com/account/organizations/new to create a new org (the "Free" option is fine). Note: is has to be an organization, a free account is not sufficient.
+* Create a classic github personal access token with `repo`, `workflow`, `delete_repo` and `admin:org` scope [here](https://github.com/settings/tokens).
+* Set the `GITHUB_TOKEN` environment variable to your token.
+  ```
+  export GITHUB_TOKEN="my-github-token"
+  ```
+* Set the `GITHUB_ORG_ID` environment variable to your GitHub organization ID.
+  ```
+  export GITHUB_ORG_ID="my-github-org-id"
+  ```
+* [Node.js](https://nodejs.org) installed locally.
+* Install the GitHub App for Backstage into your GitHub organization using `node create-gh-app/index.js`. Follow the instructions.
+  * “All repositories” ~> Install
+  * “Okay, […] was installed on the […] account.” ~> You can close the window and server.
 
-## What is an Internal Developer Platform (IDP)?
+## Usage
 
-An [Internal Developer Platform (IDP)](https://humanitec.com/blog/what-is-an-internal-developer-platform) is the sum of all the tech and tools that a platform engineering team binds together to pave golden paths for developers. IDPs lower cognitive load across the engineering organization and enable developer self-service, without abstracting away context from developers or making the underlying tech inaccessible. Well-designed IDPs follow a Platform as a Product approach, where a platform team builds, maintains, and continuously improves the IDP, following product management principles and best practices.
+Follow the same steps as for the [base layer](../../README.md#usage), applying these modifications:
+* Execute `cd ./examples/with-backstage` after cloning the repo. Execute all subsequent commands in this directory.
+* In particular, use the `./examples/with-backstage/terraform.tfvars.example` file as the basis for your `terraform.tfvars` file. It defines additional variables needed to setup and configure Backstage.
 
-## Understanding the different planes of the IDP reference architecture
+## Verify your result
 
-When McKinsey originally [published the reference architecture](https://www.youtube.com/watch?v=AimSwK8Mw-U) they proposed five planes that describe the different parts of a modern Internal Developer Platform (IDP).
+Check for the existence of key elements of the backstage module. This is a subset of all elements only. For a complete list of what was installed, review the Terraform code.
 
-![AWS reference architecture Humanitec](docs/images/AWS-reference-architecture-Humanitec.png)
-
-### Developer Control Plane
-
-This plane is the primary configuration layer and interaction point for the platform users. It harbors the following components:
-
-* A **Version Control System**. GitHub is a prominent example, but this can be any system that contains two types of repositories:
-  * Application Source Code
-  * Platform Source Code, e.g. using Terraform
-* **Workload specifications**. The reference architecture uses [Score](https://developer.humanitec.com/score/overview/).
-* A **portal** for developers to interact with. It can be the Humanitec Portal, but you might also use [Backstage](https://backstage.io/) or any other portal on the market.
-
-### Integration and Delivery Plane
-
-This plane is about building and storing the image, creating app and infra configs from the abstractions provided by the developers, and deploying the final state. It’s where the domains of developers and platform engineers meet.
-
-This plane usually contains four different tools:
-
-* A **CI pipeline**. It can be Github Actions or any CI tooling on the market.
-* The **image registry** holding your container images. Again, this can be any registry on the market.
-* An **orchestrator** which in our example, is the Humanitec Platform Orchestrator.
-* The **CD system**, which can be the Platform Orchestrator’s deployment pipeline capabilities — an external system triggered by the Orchestrator using a webhook, or a setup in tandem with GitOps operators like ArgoCD.
-
-### Monitoring and Logging Plane
-
-The integration of monitoring and logging systems varies greatly depending on the system. This plane however is not a focus of the reference architecture.
-
-### Security Plane
-
-The security plane of the reference architecture is focused on the secrets management system. The secrets manager stores configuration information such as database passwords, API keys, or TLS certificates needed by an Application at runtime. It allows the Platform Orchestrator to reference the secrets and inject them into the Workloads dynamically. You can learn more about secrets management and integration with other secrets management [here](https://developer.humanitec.com/platform-orchestrator/security/overview).
-
-The reference architecture sample implementations use the secrets store attached to the Humanitec SaaS system.
-
-### Resource Plane
-
-This plane is where the actual infrastructure exists including clusters, databases, storage, or DNS services. The configuration of the Resources is managed by the Platform Orchestrator which dynamically creates app and infrastructure configurations with every deployment and creates, updates, or deletes dependent Resources as required.
-
-## How to spin up your Humanitec AWS Reference Architecture
-
-This repo contains an implementation of part of the Humanitec Reference Architecture for an Internal Developer Platform.
-
-To install an implementation containing add-ons, follow the separate README. We currently feature these add-ons:
-
-* [Base layer plus Backstage](examples/with-backstage/)
-
-This repo covers the base layer of the implementation for AWS.
-
-By default, the following will be provisioned:
-
-* VPC
-* EKS Cluster
-* IAM User to access the cluster
-* Ingress NGINX in the cluster
-* Resource Definitions in Humanitec for:
-  * Kubernetes Cluster
-
-### Prerequisites
-
-* A Humanitec account with the `Administrator` role in an Organization. Get a [free trial](https://humanitec.com/free-trial?utm_source=github&utm_medium=referral&utm_campaign=aws_refarch_repo) if you are just starting.
-* An AWS account
-* [AWS CLI](https://aws.amazon.com/cli/) installed locally
-* [terraform](https://www.terraform.io/) installed locally
-
-### Usage
-
-**Note: Using this Reference Architecture Implementation will incur costs for your AWS project.**
-
-It is recommended that you fully review the code before you run it to ensure you understand the impact of provisioning this infrastructure.
-Humanitec does not take responsibility for any costs incurred or damage caused when using the Reference Architecture Implementation.
-
-This reference architecture implementation uses Terraform. You will need to do the following:
-
-1. [Fork this GitHub repo](https://github.com/humanitec-architecture/reference-architecture-aws/fork), clone it to your local machine and navigate to the root of the repository.
-
-2. Set the required input variables. (see [Required input variables](#required-input-variables))
-
-3. Ensure you are logged in with `aws`. (Follow the [quickstart](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html) if you aren't)
-
-4. Set the `HUMANITEC_TOKEN` environment variable to an appropriate Humanitec API token with the `Administrator` role on the Humanitec Organization.
-
-   For example:
-
+1. Perform the [verification steps of the base installation](../../README.md) if you have not already done so.
+2. Verify the existence of the Backstage Application in your Humanitec Organization:
    ```
-   export HUMANITEC_TOKEN="my-humanitec-api-token"
+   curl -s https://api.humanitec.io/orgs/${HUMANITEC_ORG}/apps/backstage \
+     --header "Authorization: Bearer ${HUMANITEC_TOKEN}"
    ```
-
-5. Run terraform:
-
+   This should output a JSON formatted representation of the Application like so:
    ```
-   terraform init
-   terraform plan
-   terraform apply
+   {"id":"backstage","name":"backstage","created_at":"2023-10-02T13:44:27Z","created_by":"s-d3e94a0e-8b53-29f9-b666-27548b7e06e0","envs":[{"id":"development","name":"Development","type":"development"}]}
    ```
+   You can also check for the Application in the [Humanitec Platform Orchestrator UI](https://app.humanitec.io).
 
-#### Required input variables
-
-Terraform reads variables by default from a file called `terraform.tfvars`. You can create your own file by renaming the `terraform.tfvars.example` file in the root of the repo and then filling in the missing values.
-
-You can see find a details about each of those variables and additional supported variables under [Inputs](#inputs).
-
-### Verify your result
-
-Check for the existence of key elements of the reference architecture. This is a subset of all elements only. For a complete list of what was installed, review the Terraform code.
-
-1. Set the `HUMANITEC_ORG` environment variable to the ID of your Humanitec Organization (must be all lowercase):
-
+3. Connect to your EKS cluster via `kubectl`. See the [AWS documentation](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html) or use this command:
    ```
-   export HUMANITEC_ORG="my-humanitec-org"
+   aws eks update-kubeconfig --region <my-aws-region> --name ref-arch
    ```
-
-2. Verify the existence of the Resource Definition for the EKS cluster in your Humanitec Organization:
-
+4. Get the elements in the newly created Kubernetes namespace:
    ```
-   curl -s https://api.humanitec.io/orgs/${HUMANITEC_ORG}/resources/defs/ref-arch \
-     --header "Authorization: Bearer ${HUMANITEC_TOKEN}" \
-     | jq .id,.type
+   kubectl get all -n backstage-development
    ```
+   You should see
+   - a `deployment`, `replicaset`, running `pod`, and `service` for Backstage
+   - a `statefulset`, running `pod`, and `service` for PostgreSQL database used by Backstage.
 
-   This should output:
+   Note: it may take up to ten minutes after the `terraform apply` completed until you actually see those resources. The Backstage application needs to built and deployed via a GitHub action out of the newly created repository in your GitHub organization.
 
-   ```
-   "ref-arch"
-   "k8s-cluster"
-   ```
 
-3. Verify the existence of the newly created EKS cluster:
+## Cleaning up
 
-   ```
-   aws eks list-clusters --region <your-region>
-   ```
+Once you are finished with the reference architecture, you can remove all provisioned infrastrcuture and the resource definitions created in Humanitec with the following:
 
-   This should output:
+1. Delete all Humanitec applications scaffolded using Backstage, but not the `backstage` app itself.
 
-   ```
-   {
-       "clusters": [
-           "ref-arch",
-           "[more previously existing clusters here]"
-       ]
-   }
-   ```
-
-### Cleaning up
-
-Once you are finished with the reference architecture, you can remove all provisioned infrastructure and the resource definitions created in Humanitec with the following:
-
-1. Ensure you are (still) logged in with `aws`.
-
-2. Ensure you still have the `HUMANITEC_TOKEN` environment variable set to an appropriate Humanitec API token with the `Administrator` role on the Humanitec Organization.
-
-3. Run terraform:
-
-   ```
-   terraform destroy
-   ```
+2. Follow the [base reference architecture cleanup instructions](../../README.md#cleaning-up).
 
 ## Terraform docs
 
@@ -184,48 +74,72 @@ Once you are finished with the reference architecture, you can remove all provis
 |------|---------|
 | terraform | >= 1.3.0 |
 | aws | ~> 5.17 |
+| github | ~> 5.38 |
+| humanitec | ~> 1.0 |
+
+### Providers
+
+| Name | Version |
+|------|---------|
+| aws | ~> 5.17 |
+| github | ~> 5.38 |
 | humanitec | ~> 1.0 |
 
 ### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
+| backstage\_ecr | terraform-aws-modules/ecr/aws | ~> 1.6 |
+| backstage\_iam\_policy\_ecr\_create\_repository | git::https://github.com/humanitec-architecture/resource-packs-aws.git//humanitec-resource-defs/iam-policy/ecr-create-repository | n/a |
+| backstage\_iam\_role\_service\_account | git::https://github.com/humanitec-architecture/resource-packs-aws.git//humanitec-resource-defs/iam-role/service-account | n/a |
+| backstage\_k8s\_service\_account | git::https://github.com/humanitec-architecture/resource-packs-aws.git//humanitec-resource-defs/k8s/service-account | n/a |
+| backstage\_mysql | git::https://github.com/humanitec-architecture/resource-packs-in-cluster.git//humanitec-resource-defs/mysql/basic | n/a |
+| backstage\_postgres | git::https://github.com/humanitec-architecture/resource-packs-in-cluster.git//humanitec-resource-defs/postgres/basic | n/a |
+| backstage\_workload | git::https://github.com/humanitec-architecture/resource-packs-aws.git//humanitec-resource-defs/workload/service-account | n/a |
 | base | ./modules/base | n/a |
+| iam\_github\_oidc\_provider | terraform-aws-modules/iam/aws//modules/iam-github-oidc-provider | ~> 5.30 |
+| iam\_github\_oidc\_role | terraform-aws-modules/iam/aws//modules/iam-github-oidc-role | ~> 5.30 |
+
+### Resources
+
+| Name | Type |
+|------|------|
+| [aws_iam_policy.ecr_push_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [github_actions_organization_secret.backstage_humanitec_token](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_organization_secret) | resource |
+| [github_actions_organization_variable.backstage_aws_region](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_organization_variable) | resource |
+| [github_actions_organization_variable.backstage_aws_role_arn](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_organization_variable) | resource |
+| [github_actions_organization_variable.backstage_cloud_provider](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_organization_variable) | resource |
+| [github_actions_organization_variable.backstage_humanitec_org_id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_organization_variable) | resource |
+| [github_repository.backstage](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
+| [humanitec_application.backstage](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/application) | resource |
+| [humanitec_resource_definition_criteria.backstage_iam_policy_ecr_create_repository](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/resource_definition_criteria) | resource |
+| [humanitec_resource_definition_criteria.backstage_iam_role_service_account](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/resource_definition_criteria) | resource |
+| [humanitec_resource_definition_criteria.backstage_k8s_service_account](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/resource_definition_criteria) | resource |
+| [humanitec_resource_definition_criteria.backstage_mysql](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/resource_definition_criteria) | resource |
+| [humanitec_resource_definition_criteria.backstage_postgres](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/resource_definition_criteria) | resource |
+| [humanitec_resource_definition_criteria.backstage_workload](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/resource_definition_criteria) | resource |
+| [humanitec_value.aws_default_region](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/value) | resource |
+| [humanitec_value.backstage_cloud_provider](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/value) | resource |
+| [humanitec_value.backstage_github_app_client_id](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/value) | resource |
+| [humanitec_value.backstage_github_app_client_secret](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/value) | resource |
+| [humanitec_value.backstage_github_app_id](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/value) | resource |
+| [humanitec_value.backstage_github_app_private_key](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/value) | resource |
+| [humanitec_value.backstage_github_app_webhook_secret](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/value) | resource |
+| [humanitec_value.backstage_github_org_id](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/value) | resource |
+| [humanitec_value.backstage_humanitec_org](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/value) | resource |
+| [humanitec_value.backstage_humanitec_token](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/value) | resource |
 
 ### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | aws\_account\_id | AWS Account (ID) to use | `string` | n/a | yes |
-| aws\_region | AWS Region to deploy into | `string` | n/a | yes |
+| aws\_region | AWS region | `string` | n/a | yes |
+| github\_app\_credentials | base64 encodece string of the GitHub App credentials file | `string` | n/a | yes |
+| github\_org\_id | GitHub org id | `string` | n/a | yes |
+| humanitec\_ci\_service\_user\_token | Humanitec CI Service User Token | `string` | n/a | yes |
 | humanitec\_org\_id | Humanitec Organization ID | `string` | n/a | yes |
 | disk\_size | Disk size in GB to use for EKS nodes | `number` | `20` | no |
 | instance\_types | List of EC2 instances types to use for EKS nodes | `list(string)` | <pre>[<br>  "t3.large"<br>]</pre> | no |
+| resource\_packs\_aws\_rev | Revision of the resource-packs-aws repository to use | `string` | `"refs/heads/main"` | no |
 <!-- END_TF_DOCS -->
-
-## Learn more
-
-Expand your knowledge by heading over to our learning path, and discover how to:
-
-* Deploy the Humanitec reference architecture using a cloud provider of your choice
-* Deploy and manage Applications using the Humanitec Platform Orchestrator and Score
-* Provision additional Resources and connect to them
-* Achieve standardization by design
-* Deal with special scenarios
-
-[Master your Internal Developer Platform](https://developer.humanitec.com/training/master-your-internal-developer-platform/introduction/)
-
-* [Introduction](https://developer.humanitec.com/training/master-your-internal-developer-platform/introduction/)
-* [Design principles](https://developer.humanitec.com/training/master-your-internal-developer-platform/design-principles/)
-* [Structure and integration points](https://developer.humanitec.com/training/master-your-internal-developer-platform/structure-and-integration-points/)
-* [Dynamic Configuration Management](https://developer.humanitec.com/training/master-your-internal-developer-platform/dynamic-config-management/)
-* [Tutorial: Set up the reference architecture in your cloud](https://developer.humanitec.com/training/master-your-internal-developer-platform/setup-ref-arch-in-your-cloud/)
-* [Theory on developer workflows](https://developer.humanitec.com/training/master-your-internal-developer-platform/theory-on-dev-workflows/)
-* [Tutorial: Scaffold a new Workload and create staging and prod Environments](https://developer.humanitec.com/training/master-your-internal-developer-platform/scaffolding-a-new-workload/)
-* [Tutorial: Deploy an Amazon S3 Resource to production](https://developer.humanitec.com/training/master-your-internal-developer-platform/deploy-a-resource/)
-* [Tutorial: Perform daily developer activities (debug, rollback, diffs, logs)](https://developer.humanitec.com/training/master-your-internal-developer-platform/daily-activities/)
-* [Tutorial: Deploy ephemeral Environments](https://developer.humanitec.com/training/master-your-internal-developer-platform/deploy-ephemeral-environments/)
-* [Theory on platform engineering workflows](https://developer.humanitec.com/training/master-your-internal-developer-platform/theory-on-pe-workflows/)
-* [Resource management theory](https://developer.humanitec.com/training/master-your-internal-developer-platform/resource-management-theory/)
-* [Tutorial: Provision a Redis cluster on AWS using Terraform](https://developer.humanitec.com/training/master-your-internal-developer-platform/provision-redis-aws/)
-* [Tutorial: Update Resource Definitions for related Applications](https://developer.humanitec.com/training/master-your-internal-developer-platform/update-resource-definitions-for-related-applications/)

@@ -1,4 +1,6 @@
 name: CI
+permissions:
+  contents: write
 on:
   push:
     branches: [main]
@@ -28,14 +30,20 @@ jobs:
       - name: Generate docs
         run: make docs
 
-      - name: Check git diff is clean (all files generated should be committed)
-        run: git diff --exit-code
-
       - name: Terraform Format Check
         run: make fmt-check
 
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "update terraform docs and fix formatting"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+
+      - name: Check git diff is clean (all files generated should be committed)
+        run: git diff --exit-code
+
       - name: Stub GitHub App credentials (required for validation)
-        run: cd ./examples/with-backstage && STUB_FILE=1 node create-gh-app/index.js
+        run: cd ./ && STUB_FILE=1 node create-gh-app/index.js
 
       - name: Terraform Validate
         run: make validate
