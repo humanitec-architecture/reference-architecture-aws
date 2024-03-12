@@ -9,7 +9,7 @@ env:
   TF_CLOUD_ORGANIZATION: "mschnitzius"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
   TF_WORKSPACE: "codecentric-idp"
-  CONFIG_DIRECTORY: "./examples/with-backstage"
+  CONFIG_DIRECTORY: "examples/with-backstage"
 
 jobs:
   terraform:
