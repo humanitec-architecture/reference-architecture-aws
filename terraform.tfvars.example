@@ -1,0 +1,29 @@
+
+# AWS Account (ID) to use
+aws_account_id = ""
+
+# AWS region
+aws_region = ""
+
+# Disk size in GB to use for EKS nodes
+disk_size = 20
+
+# base64 encodece string of the GitHub App credentials file
+github_app_credentials = ""
+
+# GitHub org id
+github_org_id = ""
+
+# Humanitec CI Service User Token
+humanitec_ci_service_user_token = ""
+
+# Humanitec Organization ID
+humanitec_org_id = ""
+
+# List of EC2 instances types to use for EKS nodes
+instance_types = [
+  "t3.large"
+]
+
+# Revision of the resource-packs-aws repository to use
+resource_packs_aws_rev = "refs/heads/main"

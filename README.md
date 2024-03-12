@@ -96,7 +96,7 @@ Once you are finished with the reference architecture, you can remove all provis
 | backstage\_mysql | git::https://github.com/humanitec-architecture/resource-packs-in-cluster.git//humanitec-resource-defs/mysql/basic | n/a |
 | backstage\_postgres | git::https://github.com/humanitec-architecture/resource-packs-in-cluster.git//humanitec-resource-defs/postgres/basic | n/a |
 | backstage\_workload | git::https://github.com/humanitec-architecture/resource-packs-aws.git//humanitec-resource-defs/workload/service-account | n/a |
-| base | ../../modules/base | n/a |
+| base | ./modules/base | n/a |
 | iam\_github\_oidc\_provider | terraform-aws-modules/iam/aws//modules/iam-github-oidc-provider | ~> 5.30 |
 | iam\_github\_oidc\_role | terraform-aws-modules/iam/aws//modules/iam-github-oidc-role | ~> 5.30 |
 
@@ -135,6 +135,7 @@ Once you are finished with the reference architecture, you can remove all provis
 |------|-------------|------|---------|:--------:|
 | aws\_account\_id | AWS Account (ID) to use | `string` | n/a | yes |
 | aws\_region | AWS region | `string` | n/a | yes |
+| github\_app\_credentials | base64 encodece string of the GitHub App credentials file | `string` | n/a | yes |
 | github\_org\_id | GitHub org id | `string` | n/a | yes |
 | humanitec\_ci\_service\_user\_token | Humanitec CI Service User Token | `string` | n/a | yes |
 | humanitec\_org\_id | Humanitec Organization ID | `string` | n/a | yes |
