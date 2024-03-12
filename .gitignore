@@ -5,7 +5,6 @@
 *.tfstate.*
 *.tfplan
 *.terraformrc
-*.tfvars
 terraform.rc
 github-app-credentials.json
 **/.DS_Store
