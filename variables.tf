@@ -15,7 +15,7 @@ variable "github_org_id" {
 
 variable "github_app_credentials" {
   description = "base64 encodece string of the GitHub App credentials file"
-  type = string
+  type        = string
 }
 
 variable "humanitec_org_id" {

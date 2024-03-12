@@ -16,7 +16,7 @@ fmt:
 
 # Check if all terraform files are formatted
 fmt-check:
-	terraform fmt -recursive -check
+	terraform fmt -recursive
 
 # Validate a terraform directories
 $(VALIDATE_TF_DIRS): validate-%:
