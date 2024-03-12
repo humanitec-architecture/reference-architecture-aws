@@ -13,6 +13,11 @@ variable "github_org_id" {
   type        = string
 }
 
+variable "github_app_credentials" {
+  description = "base64 encodece string of the GitHub App credentials file"
+  type = string
+}
+
 variable "humanitec_org_id" {
   description = "Humanitec Organization ID"
   type        = string
