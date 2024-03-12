@@ -28,6 +28,12 @@ jobs:
       - name: Generate docs
         run: make docs
 
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "docs: update terraform docs"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+
       - name: Check git diff is clean (all files generated should be committed)
         run: git diff --exit-code
 
