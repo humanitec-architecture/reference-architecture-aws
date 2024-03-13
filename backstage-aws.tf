@@ -19,7 +19,7 @@ module "petclinic_ecr" {
 
   repository_name                 = "petclinic"
   repository_image_scan_on_push   = false
-  repository_image_tag_mutability = "MUTABLE"
+  repository_image_tag_mutability = "IMMUTABLE"
   create_lifecycle_policy         = false
 
   repository_force_delete = true
