@@ -18,6 +18,7 @@ resource "aws_iam_policy" "ecr_policy" {
         "ecr:BatchCheckLayerAvailability",
         "ecr:GetDownloadUrlForLayer",
         "ecr:GetRepositoryPolicy",
+        "ecr:GetRepositoryScanFindings",
         "ecr:DescribeRepositories",
         "ecr:DescribeImageScanFindings",
         "ecr:ListImages",
