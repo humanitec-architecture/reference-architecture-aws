@@ -2,6 +2,11 @@ resource "aws_iam_user" "konstantin_bauer" {
   name = "konstantin.bauer"
 }
 
+resource "aws_iam_login_profile" "konstantin_bauer_login_profile" {
+  user              = aws_iam_user.konstantin_bauer.name
+  password_reset_required = true
+}
+
 resource "aws_iam_policy" "ecr_policy" {
   name        = "ecr_policy"
   description = "ECR policy for read, pull, and get"
