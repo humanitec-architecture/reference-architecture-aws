@@ -6,7 +6,12 @@
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
-- test
+  - prepare
+  - validate
+  - test
+  - build
+  - deploy
+  - cleanup
 sast:
   stage: test
 include:
