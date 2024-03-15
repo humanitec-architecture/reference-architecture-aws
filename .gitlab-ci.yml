@@ -11,3 +11,7 @@ sast:
   stage: test
 include:
 - template: Security/SAST.gitlab-ci.yml
+- template: Terraform.gitlab-ci.yml
+
+variables:
+  TF_STATE_NAME: default
