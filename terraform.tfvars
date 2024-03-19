@@ -12,7 +12,7 @@ humanitec_org_id = "codecentric-msc"
 
 # List of EC2 instances types to use for EKS nodes
 instance_types = [
-  "t3.micro"
+  "t3.small"
 ]
 
 # Revision of the resource-packs-aws repository to use
