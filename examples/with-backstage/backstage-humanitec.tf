@@ -126,8 +126,7 @@ resource "humanitec_resource_definition_criteria" "backstage_k8s_service_account
 module "backstage_iam_policy_ecr_create_repository" {
   source = "git::https://github.com/humanitec-architecture/resource-packs-aws.git//humanitec-resource-defs/iam-policy/ecr-create-repository"
 
-  access_key             = module.base.aws_access_key_id
-  secret_key             = module.base.aws_secret_access_key
+  driver_account         = module.base.humanitec_resource_account_id
   resource_packs_aws_rev = var.resource_packs_aws_rev
   region                 = var.aws_region
 
@@ -146,8 +145,7 @@ resource "humanitec_resource_definition_criteria" "backstage_iam_policy_ecr_crea
 module "backstage_iam_role_service_account" {
   source = "git::https://github.com/humanitec-architecture/resource-packs-aws.git//humanitec-resource-defs/iam-role/service-account"
 
-  access_key             = module.base.aws_access_key_id
-  secret_key             = module.base.aws_secret_access_key
+  driver_account         = module.base.humanitec_resource_account_id
   resource_packs_aws_rev = var.resource_packs_aws_rev
   region                 = var.aws_region
 

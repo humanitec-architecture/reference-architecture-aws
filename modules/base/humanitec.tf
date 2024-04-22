@@ -6,24 +6,32 @@ locals {
 
 data "aws_elb_hosted_zone_id" "main" {}
 
+resource "humanitec_resource_account" "cluster_account" {
+  id   = var.cluster_name
+  name = var.cluster_name
+  type = "aws-role"
+
+  credentials = jsonencode({
+    aws_role    = aws_iam_role.humanitec_svc.arn
+    external_id = random_password.external_id.result
+  })
+
+  depends_on = [aws_iam_role_policy_attachment.humanitec_svc]
+}
+
 resource "humanitec_resource_definition" "k8s_cluster_driver" {
   driver_type = "humanitec/k8s-cluster-eks"
   id          = var.cluster_name
   name        = var.cluster_name
   type        = "k8s-cluster"
 
+  driver_account = humanitec_resource_account.cluster_account.id
   driver_inputs = {
     values_string = jsonencode({
       "name"                     = module.aws_eks.cluster_name
       "loadbalancer"             = local.ingress_address
       "loadbalancer_hosted_zone" = data.aws_elb_hosted_zone_id.main.id
       "region"                   = var.region
-    }),
-    secrets_string = jsonencode({
-      "credentials" = {
-        "aws_access_key_id"     = aws_iam_access_key.humanitec_svc.id
-        "aws_secret_access_key" = aws_iam_access_key.humanitec_svc.secret
-      }
     })
   }
 }
