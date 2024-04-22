@@ -66,16 +66,20 @@ variable "capacity_type" {
   default     = "ON_DEMAND"
 }
 
-variable "iam_user_name" {
+variable "iam_role_name" {
   description = "Name of the IAM user to create for Humanitec EKS access"
   type        = string
   default     = "svc-humanitec"
 }
 
-variable "additional_aws_auth_users" {
-  description = "Additional users add to the k8s aws-auth configmap"
-  type        = list(any)
-  default     = []
+variable "additional_k8s_access_entries" {
+  description = "Additional access entries add to the k8s aws-auth configmap"
+  type = list(object({
+    id            = string
+    principal_arn = string
+    groups        = list(string)
+  }))
+  default = []
 }
 
 variable "ingress_nginx_replica_count" {

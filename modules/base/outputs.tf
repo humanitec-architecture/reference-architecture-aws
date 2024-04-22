@@ -47,12 +47,9 @@ output "ingress_nginx_external_dns" {
 }
 
 
-# Key
+# Humanitec
 
-output "aws_access_key_id" {
-  value = aws_iam_access_key.humanitec_svc.id
-}
-
-output "aws_secret_access_key" {
-  value = aws_iam_access_key.humanitec_svc.secret
+output "humanitec_resource_account_id" {
+  description = "Humanitec resource account id for the cluster"
+  value       = humanitec_resource_account.cluster_account.id
 }

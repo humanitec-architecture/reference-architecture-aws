@@ -1,27 +1,45 @@
 locals {
-  admin_policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+  admin_policy_arn   = "arn:aws:iam::aws:policy/AdministratorAccess"
+  humanitec_user_arn = "arn:aws:iam::767398028804:user/humanitec"
   tags = {
     Terraform   = "true"
     Environment = var.environment
   }
 }
 
+resource "random_password" "external_id" {
+  length  = 16
+  special = false
+}
+
+data "aws_iam_policy_document" "instance_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [local.humanitec_user_arn]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "sts:ExternalId"
+      values   = [random_password.external_id.result]
+    }
+  }
+}
+
+
 # User for Humanitec to access the EKS cluster
+resource "aws_iam_role" "humanitec_svc" {
+  name = var.iam_role_name
 
-resource "aws_iam_user" "humanitec_svc" {
-  name = var.iam_user_name
+  assume_role_policy = data.aws_iam_policy_document.instance_assume_role_policy.json
 }
 
-resource "aws_iam_user_policy_attachment" "humanitec_svc" {
-  user       = aws_iam_user.humanitec_svc.name
+resource "aws_iam_role_policy_attachment" "humanitec_svc" {
+  role       = aws_iam_role.humanitec_svc.name
   policy_arn = local.admin_policy_arn
-}
-
-resource "aws_iam_access_key" "humanitec_svc" {
-  user = aws_iam_user.humanitec_svc.name
-
-  # Ensure that the policy is not deleted before the access key
-  depends_on = [aws_iam_user_policy_attachment.humanitec_svc]
 }
 
 # VPC and EKS cluster
@@ -47,14 +65,14 @@ module "aws_vpc" {
 data "aws_caller_identity" "current" {}
 
 locals {
-  default_aws_auth_users = [
+  default_k8s_access_entries = [
     {
-      userarn  = aws_iam_user.humanitec_svc.arn
-      username = aws_iam_user.humanitec_svc.name
-      groups   = ["system:masters"]
+      id            = aws_iam_role.humanitec_svc.name
+      principal_arn = aws_iam_role.humanitec_svc.arn
+      groups        = ["system:masters"]
     }
   ]
-  aws_auth_users = concat(local.default_aws_auth_users, var.additional_aws_auth_users)
+  k8s_access_entries = concat(local.default_k8s_access_entries, var.additional_k8s_access_entries)
 }
 
 module "ebs_csi_irsa_role" {
@@ -114,9 +132,9 @@ module "aws_eks" {
   enable_cluster_creator_admin_permissions = true
 
   access_entries = {
-    for s in local.aws_auth_users : s.username => {
+    for s in local.k8s_access_entries : s.id => {
       kubernetes_groups = []
-      principal_arn     = s.userarn
+      principal_arn     = s.principal_arn
 
       policy_associations = {
         cluster_admin = {
