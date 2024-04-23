@@ -85,6 +85,20 @@ resource "humanitec_value" "aws_default_region" {
   is_secret   = false
 }
 
+resource "random_bytes" "backstage_service_to_service_auth_key" {
+  length = 24
+}
+
+resource "humanitec_value" "app_config_backend_auth_keys" {
+  app_id      = humanitec_application.backstage.id
+  key         = "APP_CONFIG_backend_auth_keys"
+  description = "Backstage service-to-service-auth keys"
+  value = jsonencode([{
+    secret = random_bytes.backstage_service_to_service_auth_key.base64
+  }])
+  is_secret = true
+}
+
 # Configure required resources for backstage
 
 locals {
