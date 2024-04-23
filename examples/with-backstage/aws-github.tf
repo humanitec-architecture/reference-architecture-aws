@@ -42,7 +42,9 @@ resource "aws_iam_policy" "ecr_push_policy" {
           "ecr:UploadLayerPart",
           "ecr:InitiateLayerUpload",
           "ecr:BatchCheckLayerAvailability",
-          "ecr:PutImage"
+          "ecr:PutImage",
+          "ecr:DescribeRepositories",
+          "ecr:CreateRepository"
         ]
         Effect   = "Allow"
         Resource = "*"
