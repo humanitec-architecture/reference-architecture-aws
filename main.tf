@@ -5,9 +5,17 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.17"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.12"
+    }
     humanitec = {
       source  = "humanitec/humanitec"
       version = "~> 1.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.25"
     }
   }
   required_version = ">= 1.3.0"

@@ -62,8 +62,6 @@ module "aws_vpc" {
   tags = local.tags
 }
 
-data "aws_caller_identity" "current" {}
-
 locals {
   default_k8s_access_entries = [
     {

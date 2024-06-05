@@ -1,7 +1,7 @@
 # Humanitec resource definition to connect the cluster to Humanitec
 
 locals {
-  ingress_address = data.kubernetes_service.ingress_nginx_controller.status.0.load_balancer.0.ingress.0.hostname
+  ingress_address = data.kubernetes_service.ingress_nginx_controller.status[0].load_balancer[0].ingress[0].hostname
 }
 
 data "aws_elb_hosted_zone_id" "main" {}

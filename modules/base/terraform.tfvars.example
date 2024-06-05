@@ -1,0 +1,52 @@
+
+# Additional access entries add to the k8s aws-auth configmap
+additional_k8s_access_entries = []
+
+# Defines whether to use ON_DEMAND or SPOT EC2 instances for EKS nodes
+capacity_type = "ON_DEMAND"
+
+# Name for the EKS cluster
+cluster_name = "ref-arch"
+
+# Version of the EKS cluster to deploy
+cluster_version = ""
+
+# Disk size in GB to use for EKS nodes
+disk_size = 20
+
+# List of CIDRs that can access the EKS cluster's public endpoint
+eks_public_access_cidrs = [
+  "0.0.0.0/0"
+]
+
+# Name of the environment to be deployed into
+environment = "development"
+
+# Name of the IAM user to create for Humanitec EKS access
+iam_role_name = "svc-humanitec"
+
+# Number of allowed unavaiable replicas for the ingress-nginx controller
+ingress_nginx_min_unavailable = 1
+
+# Number of replicas for the ingress-nginx controller
+ingress_nginx_replica_count = 2
+
+# List of EC2 instances types to use for EKS nodes
+instance_types = [
+  "t3.large"
+]
+
+# Desired number of nodes for the EKS node group
+node_group_desired_size = 3
+
+# Maximum number of nodes for the EKS node group
+node_group_max_size = 3
+
+# Minimum number of nodes for the EKS node group
+node_group_min_size = 2
+
+# AWS Region to deploy into
+region = "us-east-1"
+
+# AWS VPC name
+vpc_name = "ref-arch"
