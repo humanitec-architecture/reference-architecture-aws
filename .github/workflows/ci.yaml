@@ -37,8 +37,5 @@ jobs:
       - name: Terraform Lint
         run: make lint
 
-      - name: Stub GitHub App credentials (required for validation)
-        run: cd ./examples/with-backstage && docker run --rm -e STUB_FILE=1 -v $(pwd):/pwd ghcr.io/humanitec-architecture/create-gh-app
-
       - name: Terraform Validate
         run: make validate

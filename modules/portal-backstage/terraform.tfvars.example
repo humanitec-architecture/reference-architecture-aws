@@ -1,0 +1,24 @@
+
+# GitHub App Client ID
+github_app_client_id = ""
+
+# GitHub App Client Secret
+github_app_client_secret = ""
+
+# GitHub App ID
+github_app_id = ""
+
+# GitHub App Private Key
+github_app_private_key = ""
+
+# GitHub org id
+github_org_id = ""
+
+# GitHub Webhook Secret
+github_webhook_secret = ""
+
+# Humanitec CI Service User Token
+humanitec_ci_service_user_token = ""
+
+# Humanitec Organization ID
+humanitec_org_id = ""
