@@ -1,0 +1,12 @@
+
+# AWS region
+aws_region = ""
+
+# GitHub org id
+github_org_id = ""
+
+# Humanitec CI Service User Token
+humanitec_ci_service_user_token = ""
+
+# Humanitec Organization ID
+humanitec_org_id = ""

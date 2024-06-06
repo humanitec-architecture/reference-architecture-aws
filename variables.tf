@@ -1,16 +1,10 @@
-
-variable "aws_region" {
-  description = "AWS Region to deploy into"
-  type        = string
-}
-
 variable "aws_account_id" {
   description = "AWS Account (ID) to use"
   type        = string
 }
 
-variable "humanitec_org_id" {
-  description = "Humanitec Organization ID"
+variable "aws_region" {
+  description = "AWS region"
   type        = string
 }
 
@@ -26,4 +20,29 @@ variable "disk_size" {
   description = "Disk size in GB to use for EKS nodes"
   type        = number
   default     = 20
+}
+
+variable "with_backstage" {
+  description = "Deploy Backstage"
+  type        = bool
+  default     = false
+}
+
+variable "github_org_id" {
+  description = "GitHub org id (required for Backstage)"
+  type        = string
+  default     = null
+}
+
+variable "humanitec_org_id" {
+  description = "Humanitec Organization ID (required for Backstage)"
+  type        = string
+  default     = null
+}
+
+variable "humanitec_ci_service_user_token" {
+  description = "Humanitec CI Service User Token (required for Backstage)"
+  type        = string
+  sensitive   = true
+  default     = null
 }

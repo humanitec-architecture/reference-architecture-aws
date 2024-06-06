@@ -1,35 +1,4 @@
-
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.17"
-    }
-    helm = {
-      source  = "hashicorp/helm"
-      version = "~> 2.12"
-    }
-    humanitec = {
-      source  = "humanitec/humanitec"
-      version = "~> 1.0"
-    }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.25"
-    }
-  }
-  required_version = ">= 1.3.0"
-}
-
-provider "humanitec" {
-  org_id = var.humanitec_org_id
-}
-
-provider "aws" {
-  region              = var.aws_region
-  allowed_account_ids = [var.aws_account_id]
-}
-
+# AWS reference architecture
 
 module "base" {
   source = "./modules/base"
@@ -39,28 +8,51 @@ module "base" {
   disk_size      = var.disk_size
 }
 
-provider "kubernetes" {
-  host                   = module.base.eks_cluster_endpoint
-  cluster_ca_certificate = base64decode(module.base.eks_cluster_certificate_authority_data)
+module "github" {
+  count = var.with_backstage ? 1 : 0
 
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    command     = "aws"
-    # This requires the awscli to be installed locally where Terraform is executed
-    args = ["eks", "get-token", "--cluster-name", module.base.eks_cluster_name]
-  }
+  source = "./modules/github"
+
+  humanitec_org_id                = var.humanitec_org_id
+  humanitec_ci_service_user_token = var.humanitec_ci_service_user_token
+  aws_region                      = var.aws_region
+  github_org_id                   = var.github_org_id
+
+  depends_on = [module.base]
 }
 
-provider "helm" {
-  kubernetes {
-    host                   = module.base.eks_cluster_endpoint
-    cluster_ca_certificate = base64decode(module.base.eks_cluster_certificate_authority_data)
+# Configure GitHub variables & secrets for Backstage itself and for all scaffolded apps
 
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      command     = "aws"
-      # This requires the awscli to be installed locally where Terraform is executed
-      args = ["eks", "get-token", "--cluster-name", module.base.eks_cluster_name]
-    }
-  }
+locals {
+  github_app_credentials_file = "github-app-credentials.json"
+}
+
+module "github_app" {
+  count = var.with_backstage ? 1 : 0
+
+  # Not pinned as we don't have a release yet
+  # tflint-ignore: terraform_module_pinned_source
+  source = "github.com/humanitec-architecture/shared-terraform-modules?ref=v2024-06-06//modules/github-app"
+
+  credentials_file = "${path.module}/${local.github_app_credentials_file}"
+}
+
+# Deploy Backstage as Portal
+
+module "portal_backstage" {
+  count = var.with_backstage ? 1 : 0
+
+  source = "./modules/portal-backstage"
+
+  humanitec_org_id                = var.humanitec_org_id
+  humanitec_ci_service_user_token = var.humanitec_ci_service_user_token
+
+  github_org_id            = var.github_org_id
+  github_app_client_id     = module.github_app[0].client_id
+  github_app_client_secret = module.github_app[0].client_secret
+  github_app_id            = module.github_app[0].app_id
+  github_app_private_key   = module.github_app[0].private_key
+  github_webhook_secret    = module.github_app[0].webhook_secret
+
+  depends_on = [module.github]
 }
