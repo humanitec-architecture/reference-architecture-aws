@@ -21,6 +21,3 @@ humanitec_org_id = ""
 instance_types = [
   "t3.large"
 ]
-
-# Revision of the resource-packs-aws repository to use
-resource_packs_aws_rev = "refs/heads/main"

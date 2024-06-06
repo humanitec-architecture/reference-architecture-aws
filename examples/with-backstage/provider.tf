@@ -4,13 +4,21 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.17"
     }
+    github = {
+      source  = "integrations/github"
+      version = "~> 5.38"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.12"
+    }
     humanitec = {
       source  = "humanitec/humanitec"
       version = "~> 1.0"
     }
-    github = {
-      source  = "integrations/github"
-      version = "~> 5.38"
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.25"
     }
     random = {
       source  = "hashicorp/random"

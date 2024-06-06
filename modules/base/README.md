@@ -1,35 +1,40 @@
-# base 
+# base
 
 Module that provides the reference architecture.
 
+## Terraform docs
+
 <!-- BEGIN_TF_DOCS -->
-## Requirements
+### Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.50 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.0.3 |
+| terraform | >= 1.3.0 |
+| aws | >= 4.50 |
+| helm | ~> 2.12 |
+| humanitec | ~> 1.0 |
+| kubernetes | >= 2.0.3 |
+| random | ~> 3.5 |
 
-## Providers
+### Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.50 |
-| <a name="provider_helm"></a> [helm](#provider\_helm) | n/a |
-| <a name="provider_humanitec"></a> [humanitec](#provider\_humanitec) | n/a |
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | >= 2.0.3 |
-| <a name="provider_random"></a> [random](#provider\_random) | n/a |
+| aws | >= 4.50 |
+| helm | ~> 2.12 |
+| humanitec | ~> 1.0 |
+| kubernetes | >= 2.0.3 |
+| random | ~> 3.5 |
 
-## Modules
+### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aws_eks"></a> [aws\_eks](#module\_aws\_eks) | terraform-aws-modules/eks/aws | ~> 20.2 |
-| <a name="module_aws_vpc"></a> [aws\_vpc](#module\_aws\_vpc) | terraform-aws-modules/vpc/aws | ~> 5.1 |
-| <a name="module_ebs_csi_irsa_role"></a> [ebs\_csi\_irsa\_role](#module\_ebs\_csi\_irsa\_role) | terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks | ~> 5.30 |
+| aws\_eks | terraform-aws-modules/eks/aws | ~> 20.2 |
+| aws\_vpc | terraform-aws-modules/vpc/aws | ~> 5.1 |
+| ebs\_csi\_irsa\_role | terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks | ~> 5.30 |
 
-## Resources
+### Resources
 
 | Name | Type |
 |------|------|
@@ -42,44 +47,43 @@ Module that provides the reference architecture.
 | [humanitec_resource_definition_criteria.k8s_cluster_driver](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/resource_definition_criteria) | resource |
 | [humanitec_resource_definition_criteria.k8s_namespace](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/resource_definition_criteria) | resource |
 | [random_password.external_id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
-| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_elb_hosted_zone_id.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/elb_hosted_zone_id) | data source |
 | [aws_iam_policy_document.instance_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [kubernetes_service.ingress_nginx_controller](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/data-sources/service) | data source |
 
-## Inputs
+### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_additional_k8s_access_entries"></a> [additional\_k8s\_access\_entries](#input\_additional\_k8s\_access\_entries) | Additional access entries add to the k8s aws-auth configmap | <pre>list(object({<br>    id            = string<br>    principal_arn = string<br>    groups        = list(string)<br>  }))</pre> | `[]` | no |
-| <a name="input_capacity_type"></a> [capacity\_type](#input\_capacity\_type) | Defines whether to use ON\_DEMAND or SPOT EC2 instances for EKS nodes | `string` | `"ON_DEMAND"` | no |
-| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name for the EKS cluster | `string` | `"ref-arch"` | no |
-| <a name="input_cluster_version"></a> [cluster\_version](#input\_cluster\_version) | Version of the EKS cluster to deploy | `string` | `null` | no |
-| <a name="input_disk_size"></a> [disk\_size](#input\_disk\_size) | Disk size in GB to use for EKS nodes | `number` | `20` | no |
-| <a name="input_eks_public_access_cidrs"></a> [eks\_public\_access\_cidrs](#input\_eks\_public\_access\_cidrs) | List of CIDRs that can access the EKS cluster's public endpoint | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
-| <a name="input_environment"></a> [environment](#input\_environment) | Name of the environment to be deployed into | `string` | `"development"` | no |
-| <a name="input_iam_role_name"></a> [iam\_role\_name](#input\_iam\_role\_name) | Name of the IAM user to create for Humanitec EKS access | `string` | `"svc-humanitec"` | no |
-| <a name="input_ingress_nginx_min_unavailable"></a> [ingress\_nginx\_min\_unavailable](#input\_ingress\_nginx\_min\_unavailable) | Number of allowed unavaiable replicas for the ingress-nginx controller | `number` | `1` | no |
-| <a name="input_ingress_nginx_replica_count"></a> [ingress\_nginx\_replica\_count](#input\_ingress\_nginx\_replica\_count) | Number of replicas for the ingress-nginx controller | `number` | `2` | no |
-| <a name="input_instance_types"></a> [instance\_types](#input\_instance\_types) | List of EC2 instances types to use for EKS nodes | `list(string)` | <pre>[<br>  "t3.large"<br>]</pre> | no |
-| <a name="input_node_group_desired_size"></a> [node\_group\_desired\_size](#input\_node\_group\_desired\_size) | Desired number of nodes for the EKS node group | `number` | `3` | no |
-| <a name="input_node_group_max_size"></a> [node\_group\_max\_size](#input\_node\_group\_max\_size) | Maximum number of nodes for the EKS node group | `number` | `3` | no |
-| <a name="input_node_group_min_size"></a> [node\_group\_min\_size](#input\_node\_group\_min\_size) | Minimum number of nodes for the EKS node group | `number` | `2` | no |
-| <a name="input_region"></a> [region](#input\_region) | AWS Region to deploy into | `string` | `"us-east-1"` | no |
-| <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | AWS VPC name | `string` | `"ref-arch"` | no |
+| additional\_k8s\_access\_entries | Additional access entries add to the k8s aws-auth configmap | <pre>list(object({<br>    id            = string<br>    principal_arn = string<br>    groups        = list(string)<br>  }))</pre> | `[]` | no |
+| capacity\_type | Defines whether to use ON\_DEMAND or SPOT EC2 instances for EKS nodes | `string` | `"ON_DEMAND"` | no |
+| cluster\_name | Name for the EKS cluster | `string` | `"ref-arch"` | no |
+| cluster\_version | Version of the EKS cluster to deploy | `string` | `null` | no |
+| disk\_size | Disk size in GB to use for EKS nodes | `number` | `20` | no |
+| eks\_public\_access\_cidrs | List of CIDRs that can access the EKS cluster's public endpoint | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
+| environment | Name of the environment to be deployed into | `string` | `"development"` | no |
+| iam\_role\_name | Name of the IAM user to create for Humanitec EKS access | `string` | `"svc-humanitec"` | no |
+| ingress\_nginx\_min\_unavailable | Number of allowed unavaiable replicas for the ingress-nginx controller | `number` | `1` | no |
+| ingress\_nginx\_replica\_count | Number of replicas for the ingress-nginx controller | `number` | `2` | no |
+| instance\_types | List of EC2 instances types to use for EKS nodes | `list(string)` | <pre>[<br>  "t3.large"<br>]</pre> | no |
+| node\_group\_desired\_size | Desired number of nodes for the EKS node group | `number` | `3` | no |
+| node\_group\_max\_size | Maximum number of nodes for the EKS node group | `number` | `3` | no |
+| node\_group\_min\_size | Minimum number of nodes for the EKS node group | `number` | `2` | no |
+| region | AWS Region to deploy into | `string` | `"us-east-1"` | no |
+| vpc\_name | AWS VPC name | `string` | `"ref-arch"` | no |
 
-## Outputs
+### Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_eks_cluster_certificate_authority_data"></a> [eks\_cluster\_certificate\_authority\_data](#output\_eks\_cluster\_certificate\_authority\_data) | Base64 encoded certificate data required to communicate with the cluster |
-| <a name="output_eks_cluster_endpoint"></a> [eks\_cluster\_endpoint](#output\_eks\_cluster\_endpoint) | Endpoint for your Kubernetes API server |
-| <a name="output_eks_cluster_name"></a> [eks\_cluster\_name](#output\_eks\_cluster\_name) | The name of the EKS cluster |
-| <a name="output_eks_oidc_provider"></a> [eks\_oidc\_provider](#output\_eks\_oidc\_provider) | The OpenID Connect identity provider (issuer URL without leading `https://`) |
-| <a name="output_eks_oidc_provider_arn"></a> [eks\_oidc\_provider\_arn](#output\_eks\_oidc\_provider\_arn) | The ARN of the OIDC Provider |
-| <a name="output_environment"></a> [environment](#output\_environment) | Name of the environment to be deployed into |
-| <a name="output_humanitec_resource_account_id"></a> [humanitec\_resource\_account\_id](#output\_humanitec\_resource\_account\_id) | Humanitec resource account id for the cluster |
-| <a name="output_ingress_nginx_external_dns"></a> [ingress\_nginx\_external\_dns](#output\_ingress\_nginx\_external\_dns) | External DNS entry for the Nginx ingress controller |
-| <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | VPC id |
+| eks\_cluster\_certificate\_authority\_data | Base64 encoded certificate data required to communicate with the cluster |
+| eks\_cluster\_endpoint | Endpoint for your Kubernetes API server |
+| eks\_cluster\_name | The name of the EKS cluster |
+| eks\_oidc\_provider | The OpenID Connect identity provider (issuer URL without leading `https://`) |
+| eks\_oidc\_provider\_arn | The ARN of the OIDC Provider |
+| environment | Name of the environment to be deployed into |
+| humanitec\_resource\_account\_id | Humanitec resource account id for the cluster |
+| ingress\_nginx\_external\_dns | External DNS entry for the Nginx ingress controller |
+| vpc\_id | VPC id |
 <!-- END_TF_DOCS -->

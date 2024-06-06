@@ -108,7 +108,7 @@ locals {
 # in-cluster postgres
 
 module "backstage_postgres" {
-  source = "git::https://github.com/humanitec-architecture/resource-packs-in-cluster.git//humanitec-resource-defs/postgres/basic"
+  source = "github.com/humanitec-architecture/resource-packs-in-cluster?ref=v2024-06-05//humanitec-resource-defs/postgres/basic"
 
   prefix = local.res_def_prefix
 }
@@ -120,84 +120,12 @@ resource "humanitec_resource_definition_criteria" "backstage_postgres" {
   force_delete = true
 }
 
-# k8s service account (to assume an AWS role)
-
-module "backstage_k8s_service_account" {
-  source = "git::https://github.com/humanitec-architecture/resource-packs-aws.git//humanitec-resource-defs/k8s/service-account"
-
-  prefix = local.res_def_prefix
-}
-
-resource "humanitec_resource_definition_criteria" "backstage_k8s_service_account" {
-  resource_definition_id = module.backstage_k8s_service_account.id
-  app_id                 = humanitec_application.backstage.id
-
-  force_delete = true
-}
-
-# AWS policy to create ECR repositories (required to scaffold apps)
-
-module "backstage_iam_policy_ecr_create_repository" {
-  source = "git::https://github.com/humanitec-architecture/resource-packs-aws.git//humanitec-resource-defs/iam-policy/ecr-create-repository"
-
-  driver_account         = module.base.humanitec_resource_account_id
-  resource_packs_aws_rev = var.resource_packs_aws_rev
-  region                 = var.aws_region
-
-  prefix = local.res_def_prefix
-}
-
-resource "humanitec_resource_definition_criteria" "backstage_iam_policy_ecr_create_repository" {
-  resource_definition_id = module.backstage_iam_policy_ecr_create_repository.id
-  app_id                 = humanitec_application.backstage.id
-
-  force_delete = true
-}
-
-# AWS role assumable by the k8s service account
-
-module "backstage_iam_role_service_account" {
-  source = "git::https://github.com/humanitec-architecture/resource-packs-aws.git//humanitec-resource-defs/iam-role/service-account"
-
-  driver_account         = module.base.humanitec_resource_account_id
-  resource_packs_aws_rev = var.resource_packs_aws_rev
-  region                 = var.aws_region
-
-  policy_classes = ["default"]
-
-  cluster_name = module.base.eks_cluster_name
-  prefix       = local.res_def_prefix
-}
-
-resource "humanitec_resource_definition_criteria" "backstage_iam_role_service_account" {
-  resource_definition_id = module.backstage_iam_role_service_account.id
-  app_id                 = humanitec_application.backstage.id
-
-  force_delete = true
-}
-
-# Workload resource that sets the service account
-
-module "backstage_workload" {
-  source = "git::https://github.com/humanitec-architecture/resource-packs-aws.git//humanitec-resource-defs/workload/service-account"
-
-  prefix = local.res_def_prefix
-}
-
-resource "humanitec_resource_definition_criteria" "backstage_workload" {
-  resource_definition_id = module.backstage_workload.id
-  app_id                 = humanitec_application.backstage.id
-
-  force_delete = true
-}
-
-
 # Configure required resources for scaffolded apps
 
 # in-cluster mysql
 
 module "backstage_mysql" {
-  source = "git::https://github.com/humanitec-architecture/resource-packs-in-cluster.git//humanitec-resource-defs/mysql/basic"
+  source = "github.com/humanitec-architecture/resource-packs-in-cluster?ref=v2024-06-05//humanitec-resource-defs/mysql/basic"
 
   prefix = local.res_def_prefix
 }

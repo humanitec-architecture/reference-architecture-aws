@@ -24,12 +24,6 @@ variable "humanitec_ci_service_user_token" {
   sensitive   = true
 }
 
-variable "resource_packs_aws_rev" {
-  description = "Revision of the resource-packs-aws repository to use"
-  type        = string
-  default     = "refs/heads/main"
-}
-
 variable "instance_types" {
   description = "List of EC2 instances types to use for EKS nodes"
   type        = list(string)
