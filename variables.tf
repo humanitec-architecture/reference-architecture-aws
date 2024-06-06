@@ -1,3 +1,9 @@
+variable "humanitec_org_id" {
+  description = "Humanitec Organization ID"
+  type        = string
+  default     = null
+}
+
 variable "aws_account_id" {
   description = "AWS Account (ID) to use"
   type        = string
@@ -30,12 +36,6 @@ variable "with_backstage" {
 
 variable "github_org_id" {
   description = "GitHub org id (required for Backstage)"
-  type        = string
-  default     = null
-}
-
-variable "humanitec_org_id" {
-  description = "Humanitec Organization ID (required for Backstage)"
   type        = string
   default     = null
 }

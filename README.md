@@ -221,8 +221,10 @@ Once you are finished with the reference architecture, you can remove all provis
 | github | ~> 5.38 |
 | helm | ~> 2.12 |
 | humanitec | ~> 1.0 |
+| kubectl | ~> 2.0 |
 | kubernetes | ~> 2.25 |
 | random | ~> 3.5 |
+| tls | ~> 4.0 |
 
 ### Providers
 
@@ -254,7 +256,7 @@ Once you are finished with the reference architecture, you can remove all provis
 | aws\_region | AWS region | `string` | n/a | yes |
 | disk\_size | Disk size in GB to use for EKS nodes | `number` | `20` | no |
 | github\_org\_id | GitHub org id (required for Backstage) | `string` | `null` | no |
-| humanitec\_org\_id | Humanitec Organization ID (required for Backstage) | `string` | `null` | no |
+| humanitec\_org\_id | Humanitec Organization ID | `string` | `null` | no |
 | instance\_types | List of EC2 instances types to use for EKS nodes | `list(string)` | <pre>[<br>  "t3.large"<br>]</pre> | no |
 | with\_backstage | Deploy Backstage | `bool` | `false` | no |
 <!-- END_TF_DOCS -->

@@ -9,6 +9,11 @@ variable "humanitec_ci_service_user_token" {
   sensitive   = true
 }
 
+variable "humanitec_secret_store_id" {
+  description = "Humanitec Secret Store ID"
+  type        = string
+}
+
 variable "github_org_id" {
   description = "GitHub org id"
   type        = string

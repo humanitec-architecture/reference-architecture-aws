@@ -22,3 +22,6 @@ humanitec_ci_service_user_token = ""
 
 # Humanitec Organization ID
 humanitec_org_id = ""
+
+# Humanitec Secret Store ID
+humanitec_secret_store_id = ""

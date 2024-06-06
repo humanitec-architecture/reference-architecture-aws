@@ -53,3 +53,8 @@ output "humanitec_resource_account_id" {
   description = "Humanitec resource account id for the cluster"
   value       = humanitec_resource_account.cluster_account.id
 }
+
+output "humanitec_secret_store_id" {
+  description = "Humanitec secret store id"
+  value       = humanitec_secretstore.main.id
+}

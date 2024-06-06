@@ -11,7 +11,7 @@ disk_size = 20
 # GitHub org id (required for Backstage)
 github_org_id = ""
 
-# Humanitec Organization ID (required for Backstage)
+# Humanitec Organization ID
 humanitec_org_id = ""
 
 # List of EC2 instances types to use for EKS nodes
