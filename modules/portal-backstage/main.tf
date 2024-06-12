@@ -3,23 +3,37 @@ resource "humanitec_application" "backstage" {
   name = "backstage"
 }
 
+locals {
+  secrets = {
+    humanitec-token          = var.humanitec_ci_service_user_token
+    github-app-client-id     = var.github_app_client_id
+    github-app-client-secret = var.github_app_client_secret
+    github-app-private-key   = indent(2, var.github_app_private_key)
+    github-webhook-secret    = var.github_webhook_secret
+  }
+
+  secret_refs = {
+    for key, value in local.secrets : key => {
+      value = value
+    }
+  }
+}
+
 module "portal_backstage" {
-  # Not pinned as we don't have a release yet
-  # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/humanitec-architecture/shared-terraform-modules?ref=v2024-06-06//modules/portal-backstage"
+  source = "github.com/humanitec-architecture/shared-terraform-modules?ref=v2024-06-12//modules/portal-backstage"
 
   cloud_provider = "aws"
 
-  humanitec_org_id                = var.humanitec_org_id
-  humanitec_app_id                = humanitec_application.backstage.id
-  humanitec_ci_service_user_token = var.humanitec_ci_service_user_token
+  humanitec_org_id                    = var.humanitec_org_id
+  humanitec_app_id                    = humanitec_application.backstage.id
+  humanitec_ci_service_user_token_ref = local.secret_refs["humanitec-token"]
 
-  github_org_id            = var.github_org_id
-  github_app_client_id     = var.github_app_client_id
-  github_app_client_secret = var.github_app_client_secret
-  github_app_id            = var.github_app_id
-  github_app_private_key   = var.github_app_private_key
-  github_webhook_secret    = var.github_webhook_secret
+  github_org_id                = var.github_org_id
+  github_app_client_id_ref     = local.secret_refs["github-app-client-id"]
+  github_app_client_secret_ref = local.secret_refs["github-app-client-secret"]
+  github_app_id                = var.github_app_id
+  github_app_private_key_ref   = local.secret_refs["github-app-private-key"]
+  github_webhook_secret_ref    = local.secret_refs["github-webhook-secret"]
 }
 
 # Configure required resources for backstage
