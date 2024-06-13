@@ -8,13 +8,31 @@ module "base" {
   disk_size      = var.disk_size
 }
 
+# User used for scaffolding and deploying apps
+
+resource "humanitec_user" "deployer" {
+  count = var.with_backstage ? 1 : 0
+
+  name = "deployer"
+  role = "administrator"
+  type = "service"
+}
+
+resource "humanitec_service_user_token" "deployer" {
+  count = var.with_backstage ? 1 : 0
+
+  id          = "deployer"
+  user_id     = humanitec_user.deployer[0].id
+  description = "Used by scaffolding and deploying"
+}
+
 module "github" {
   count = var.with_backstage ? 1 : 0
 
   source = "./modules/github"
 
   humanitec_org_id                = var.humanitec_org_id
-  humanitec_ci_service_user_token = var.humanitec_ci_service_user_token
+  humanitec_ci_service_user_token = humanitec_service_user_token.deployer[0].token
   aws_region                      = var.aws_region
   github_org_id                   = var.github_org_id
 
@@ -30,9 +48,7 @@ locals {
 module "github_app" {
   count = var.with_backstage ? 1 : 0
 
-  # Not pinned as we don't have a release yet
-  # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/humanitec-architecture/shared-terraform-modules?ref=v2024-06-06//modules/github-app"
+  source = "github.com/humanitec-architecture/shared-terraform-modules?ref=v2024-06-12//modules/github-app"
 
   credentials_file = "${path.module}/${local.github_app_credentials_file}"
 }
@@ -45,7 +61,7 @@ module "portal_backstage" {
   source = "./modules/portal-backstage"
 
   humanitec_org_id                = var.humanitec_org_id
-  humanitec_ci_service_user_token = var.humanitec_ci_service_user_token
+  humanitec_ci_service_user_token = humanitec_service_user_token.deployer[0].token
 
   github_org_id            = var.github_org_id
   github_app_client_id     = module.github_app[0].client_id

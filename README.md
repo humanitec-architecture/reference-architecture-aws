@@ -224,14 +224,27 @@ Once you are finished with the reference architecture, you can remove all provis
 | kubernetes | ~> 2.25 |
 | random | ~> 3.5 |
 
+### Providers
+
+| Name | Version |
+|------|---------|
+| humanitec | ~> 1.0 |
+
 ### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | base | ./modules/base | n/a |
 | github | ./modules/github | n/a |
-| github\_app | github.com/humanitec-architecture/shared-terraform-modules | v2024-06-06//modules/github-app |
+| github\_app | github.com/humanitec-architecture/shared-terraform-modules | v2024-06-12//modules/github-app |
 | portal\_backstage | ./modules/portal-backstage | n/a |
+
+### Resources
+
+| Name | Type |
+|------|------|
+| [humanitec_service_user_token.deployer](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/service_user_token) | resource |
+| [humanitec_user.deployer](https://registry.terraform.io/providers/humanitec/humanitec/latest/docs/resources/user) | resource |
 
 ### Inputs
 
@@ -241,7 +254,6 @@ Once you are finished with the reference architecture, you can remove all provis
 | aws\_region | AWS region | `string` | n/a | yes |
 | disk\_size | Disk size in GB to use for EKS nodes | `number` | `20` | no |
 | github\_org\_id | GitHub org id (required for Backstage) | `string` | `null` | no |
-| humanitec\_ci\_service\_user\_token | Humanitec CI Service User Token (required for Backstage) | `string` | `null` | no |
 | humanitec\_org\_id | Humanitec Organization ID (required for Backstage) | `string` | `null` | no |
 | instance\_types | List of EC2 instances types to use for EKS nodes | `list(string)` | <pre>[<br>  "t3.large"<br>]</pre> | no |
 | with\_backstage | Deploy Backstage | `bool` | `false` | no |

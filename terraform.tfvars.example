@@ -11,9 +11,6 @@ disk_size = 20
 # GitHub org id (required for Backstage)
 github_org_id = ""
 
-# Humanitec CI Service User Token (required for Backstage)
-humanitec_ci_service_user_token = ""
-
 # Humanitec Organization ID (required for Backstage)
 humanitec_org_id = ""
 

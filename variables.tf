@@ -39,10 +39,3 @@ variable "humanitec_org_id" {
   type        = string
   default     = null
 }
-
-variable "humanitec_ci_service_user_token" {
-  description = "Humanitec CI Service User Token (required for Backstage)"
-  type        = string
-  sensitive   = true
-  default     = null
-}
