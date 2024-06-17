@@ -77,6 +77,8 @@ By default, the following will be provisioned:
 * An AWS account
 * [AWS CLI](https://aws.amazon.com/cli/) installed locally
 * [terraform](https://www.terraform.io/) installed locally
+* (Optional) [Humanitec CLI](https://developer.humanitec.com/platform-orchestrator/cli/) installed locally
+* (Optional) [GitHub CLI](https://cli.github.com/) installed locally
 
 ### Usage
 
@@ -93,7 +95,14 @@ This reference architecture implementation uses Terraform. You will need to do t
 
 3. Ensure you are logged in with `aws`. (Follow the [quickstart](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html) if you aren't)
 
-4. Set the `HUMANITEC_TOKEN` environment variable to an appropriate Humanitec API token with the `Administrator` role on the Humanitec Organization.
+4.
+   1. Login to Humanitec (your user needs to have the `Administrator` role on the Humanitec Organization)
+
+      ```shell
+      humctl login
+      ```
+
+   2. Alternatively: Set the `HUMANITEC_TOKEN` environment variable to an appropriate Humanitec API token with the `Administrator` role on the Humanitec Organization.
 
    For example:
 
@@ -164,12 +173,21 @@ Check for the existence of key elements of the reference architecture. This is a
 Backstage requires a GitHub connection, which in turn needs:
 
 * A GitHub organization and permission to create new repositories in it. Go to <https://github.com/account/organizations/new> to create a new org (the "Free" option is fine). Note: is has to be an organization, a free account is not sufficient.
-* Create a classic github personal access token with `repo`, `workflow`, `delete_repo` and `admin:org` scope [here](https://github.com/settings/tokens).
-* Set the `GITHUB_TOKEN` environment variable to your token.
 
-  ```shell
-  export GITHUB_TOKEN="my-github-token"
-  ```
+* Configured GitHub access
+  * Either using the GitHub CLI:
+
+    ```shell
+    gh auth login --scopes repo,workflow,admin:org,delete_repo
+    ```
+
+  * Or using a token:
+    * Create a classic github personal access token with `repo`, `workflow`, `delete_repo` and `admin:org` scope [here](https://github.com/settings/tokens).
+    * Set the `GITHUB_TOKEN` environment variable to your token.
+
+      ```shell
+      export GITHUB_TOKEN="my-github-token"
+      ```
 
 * Set the `GITHUB_ORG_ID` environment variable to your GitHub organization ID.
 
