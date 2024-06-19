@@ -102,7 +102,7 @@ This reference architecture implementation uses Terraform. You will need to do t
       humctl login
       ```
 
-   2. Alternatively: Set the `HUMANITEC_TOKEN` environment variable to an appropriate Humanitec API token with the `Administrator` role on the Humanitec Organization.
+   2. Alternatively: Set the `HUMANITEC_TOKEN` environment variable to an appropriate [Humanitec API token](https://developer.humanitec.com/platform-orchestrator/security/service-users/#generate-an-api-token-from-a-service-user) with the `Administrator` role on the Humanitec Organization.
 
    For example:
 
