@@ -171,7 +171,7 @@ resource "helm_release" "ingress_nginx" {
   repository       = "https://kubernetes.github.io/ingress-nginx"
 
   chart   = "ingress-nginx"
-  version = "4.10.0"
+  version = "4.10.1"
   wait    = true
   timeout = 600
 
@@ -185,6 +185,41 @@ resource "helm_release" "ingress_nginx" {
     type  = "string"
     name  = "controller.minAvailable"
     value = var.ingress_nginx_min_unavailable
+  }
+
+  set {
+    name  = "controller.containerSecurityContext.runAsUser"
+    value = 101
+  }
+
+  set {
+    name  = "controller.containerSecurityContext.runAsGroup"
+    value = 101
+  }
+
+  set {
+    name  = "controller.containerSecurityContext.allowPrivilegeEscalation"
+    value = false
+  }
+
+  set {
+    name  = "controller.containerSecurityContext.readOnlyRootFilesystem"
+    value = false
+  }
+
+  set {
+    name  = "controller.containerSecurityContext.runAsNonRoot"
+    value = true
+  }
+
+  set_list {
+    name  = "controller.containerSecurityContext.capabilities.drop"
+    value = ["ALL"]
+  }
+
+  set_list {
+    name  = "controller.containerSecurityContext.capabilities.add"
+    value = ["NET_BIND_SERVICE"]
   }
 
   depends_on = [module.aws_eks.eks_managed_node_groups]
