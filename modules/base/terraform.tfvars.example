@@ -2,6 +2,12 @@
 # Additional access entries add to the k8s aws-auth configmap
 additional_k8s_access_entries = []
 
+# AWS Account (ID) to use
+aws_account_id = ""
+
+# AWS Region to deploy into
+aws_region = "us-east-1"
+
 # Defines whether to use ON_DEMAND or SPOT EC2 instances for EKS nodes
 capacity_type = "ON_DEMAND"
 
@@ -21,6 +27,9 @@ eks_public_access_cidrs = [
 
 # Name of the environment to be deployed into
 environment = "development"
+
+# Humanitec Organization ID
+humanitec_org_id = ""
 
 # Name of the IAM user to create for Humanitec EKS access
 iam_role_name = "svc-humanitec"
@@ -44,9 +53,6 @@ node_group_max_size = 3
 
 # Minimum number of nodes for the EKS node group
 node_group_min_size = 2
-
-# AWS Region to deploy into
-region = "us-east-1"
 
 # AWS VPC name
 vpc_name = "ref-arch"

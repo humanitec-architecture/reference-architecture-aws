@@ -1,10 +1,20 @@
+variable "humanitec_org_id" {
+  description = "Humanitec Organization ID"
+  type        = string
+}
+
 variable "eks_public_access_cidrs" {
   description = "List of CIDRs that can access the EKS cluster's public endpoint"
   type        = list(string)
   default     = ["0.0.0.0/0"]
 }
 
-variable "region" {
+variable "aws_account_id" {
+  description = "AWS Account (ID) to use"
+  type        = string
+}
+
+variable "aws_region" {
   description = "AWS Region to deploy into"
   type        = string
   default     = "us-east-1"
