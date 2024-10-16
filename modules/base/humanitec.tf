@@ -35,11 +35,14 @@ resource "humanitec_resource_definition" "k8s_cluster_driver" {
 
   driver_account = humanitec_resource_account.cluster_account.id
   driver_inputs = {
+    secrets_string = jsonencode({
+      "agent_url" = "$${resources['agent#agent'].outputs.url}"
+    })
     values_string = jsonencode({
       "name"                     = module.aws_eks.cluster_name
       "loadbalancer"             = local.ingress_address
       "loadbalancer_hosted_zone" = data.aws_elb_hosted_zone_id.main.id
-      "region"                   = var.region
+      "region"                   = var.aws_region
     })
   }
 }

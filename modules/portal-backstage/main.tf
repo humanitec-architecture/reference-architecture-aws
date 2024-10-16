@@ -14,9 +14,24 @@ locals {
 
   secret_refs = {
     for key, value in local.secrets : key => {
-      value = value
+      ref     = aws_secretsmanager_secret.backstage_secret[key].id
+      store   = var.humanitec_secret_store_id
+      version = aws_secretsmanager_secret_version.backstage_secret[key].version_id
     }
   }
+}
+
+
+resource "aws_secretsmanager_secret" "backstage_secret" {
+  for_each = local.secrets
+  name     = "humanitec-backstage-${each.key}"
+}
+
+resource "aws_secretsmanager_secret_version" "backstage_secret" {
+  for_each = local.secrets
+
+  secret_id     = aws_secretsmanager_secret.backstage_secret[each.key].id
+  secret_string = each.value
 }
 
 module "portal_backstage" {

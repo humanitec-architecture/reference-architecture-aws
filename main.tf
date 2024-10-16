@@ -3,9 +3,11 @@
 module "base" {
   source = "./modules/base"
 
-  region         = var.aws_region
-  instance_types = var.instance_types
-  disk_size      = var.disk_size
+  humanitec_org_id = var.humanitec_org_id
+  aws_account_id   = var.aws_account_id
+  aws_region       = var.aws_region
+  instance_types   = var.instance_types
+  disk_size        = var.disk_size
 }
 
 # User used for scaffolding and deploying apps
@@ -62,6 +64,7 @@ module "portal_backstage" {
 
   humanitec_org_id                = var.humanitec_org_id
   humanitec_ci_service_user_token = humanitec_service_user_token.deployer[0].token
+  humanitec_secret_store_id       = module.base.humanitec_secret_store_id
 
   github_org_id            = var.github_org_id
   github_app_client_id     = module.github_app[0].client_id
