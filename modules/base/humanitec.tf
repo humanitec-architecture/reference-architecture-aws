@@ -118,8 +118,7 @@ END_OF_TEXT
 
 resource "humanitec_resource_definition_criteria" "emptydir_volume" {
   resource_definition_id = humanitec_resource_definition.emptydir_volume.id
-  env_id                 = var.environment
-  env_type               = var.environment_type
+  env_type               = var.environment
 
   force_delete = true
 }
