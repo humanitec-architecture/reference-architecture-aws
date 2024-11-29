@@ -92,3 +92,34 @@ resource "humanitec_resource_definition_criteria" "default_mysql" {
   resource_definition_id = module.default_mysql.id
   env_type               = var.environment
 }
+
+resource "humanitec_resource_definition" "emptydir_volume" {
+  driver_type = "humanitec/template"
+  id          = "volume-emptydir"
+  name        = "volume-emptydir"
+  type        = "volume"
+  driver_inputs = {
+    values_string = jsonencode({
+      "templates" = {
+        "manifests" = {
+          "emptydir.yaml" = {
+            "location" = "volumes"
+            "data"     = <<END_OF_TEXT
+name: $${context.res.guresid}-emptydir
+emptyDir:
+  sizeLimit: 1024Mi
+END_OF_TEXT
+          }
+        }
+      }
+    })
+  }
+}
+
+resource "humanitec_resource_definition_criteria" "emptydir_volume" {
+  resource_definition_id = humanitec_resource_definition.emptydir_volume.id
+  env_id                 = var.environment
+  env_type               = var.environment_type
+
+  force_delete = true
+}
