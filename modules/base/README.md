@@ -32,8 +32,8 @@ Module that provides the reference architecture.
 |------|--------|---------|
 | aws\_eks | terraform-aws-modules/eks/aws | ~> 20.2 |
 | aws\_vpc | terraform-aws-modules/vpc/aws | ~> 5.1 |
-| default\_mysql | github.com/humanitec-architecture/resource-packs-in-cluster | v2024-06-05//humanitec-resource-defs/mysql/basic |
-| default\_postgres | github.com/humanitec-architecture/resource-packs-in-cluster | v2024-06-05//humanitec-resource-defs/postgres/basic |
+| default\_mysql | github.com/humanitec-architecture/resource-packs-in-cluster//humanitec-resource-defs/mysql/basic | v2024-06-05 |
+| default\_postgres | github.com/humanitec-architecture/resource-packs-in-cluster//humanitec-resource-defs/postgres/basic | v2024-06-05 |
 | ebs\_csi\_irsa\_role | terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks | ~> 5.30 |
 
 ### Resources

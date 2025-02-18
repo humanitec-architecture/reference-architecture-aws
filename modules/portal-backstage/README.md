@@ -22,8 +22,8 @@ This module deploys the [Humanitec Reference Architecture Backstage](https://git
 
 | Name | Source | Version |
 |------|--------|---------|
-| backstage\_postgres | github.com/humanitec-architecture/resource-packs-in-cluster | v2024-06-05//humanitec-resource-defs/postgres/basic |
-| portal\_backstage | github.com/humanitec-architecture/shared-terraform-modules | v2024-06-12//modules/portal-backstage |
+| backstage\_postgres | github.com/humanitec-architecture/resource-packs-in-cluster//humanitec-resource-defs/postgres/basic | v2024-06-05 |
+| portal\_backstage | github.com/humanitec-architecture/shared-terraform-modules//modules/portal-backstage | v2024-06-12 |
 
 ### Resources
 
