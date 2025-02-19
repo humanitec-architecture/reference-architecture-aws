@@ -254,7 +254,7 @@ Once you are finished with the reference architecture, you can remove all provis
 |------|--------|---------|
 | base | ./modules/base | n/a |
 | github | ./modules/github | n/a |
-| github\_app | github.com/humanitec-architecture/shared-terraform-modules | v2024-06-12//modules/github-app |
+| github\_app | github.com/humanitec-architecture/shared-terraform-modules//modules/github-app | v2024-06-12 |
 | portal\_backstage | ./modules/portal-backstage | n/a |
 
 ### Resources

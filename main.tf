@@ -48,7 +48,7 @@ locals {
 module "github_app" {
   count = var.with_backstage ? 1 : 0
 
-  source = "github.com/humanitec-architecture/shared-terraform-modules?ref=v2024-06-12//modules/github-app"
+  source = "github.com/humanitec-architecture/shared-terraform-modules//modules/github-app?ref=v2024-06-12"
 
   credentials_file = "${path.module}/${local.github_app_credentials_file}"
 }
